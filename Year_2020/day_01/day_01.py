@@ -19,10 +19,10 @@ class Day01():
 			if number >= target_sum:
 				return 0
 
-	def find_three_with_sum(self):
+	def find_three_with_sum(self, target_sum):
 		for number in self.input:
-			target_sum = self.target_grand_total - number
-			match = self.find_pair_with_sum(target_sum, number)
+			intermediate_sum = target_sum - number
+			match = self.find_pair_with_sum(intermediate_sum, number)
 			if match:
 				return match * number
 
@@ -35,4 +35,4 @@ class Day01():
 
 if __name__ == '__main__':
 	print(Day01().find_pair_with_sum(2020))
-	print(Day01().find_three_with_sum())
+	print(Day01().find_three_with_sum(2020))

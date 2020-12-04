@@ -14,7 +14,7 @@ class TestDay01(unittest.TestCase):
 	def test_example_input_part_2(self):
 		input = [1721, 979, 366, 299, 675, 456]	
 		expected = 241861950
-		result = Day01(input=input).find_three_with_sum()
+		result = Day01(input=input).find_three_with_sum(2020)
 		print('result: ', result)
 		assert expected == result
 
