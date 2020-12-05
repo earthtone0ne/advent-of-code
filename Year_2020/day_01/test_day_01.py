@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch
 from day_01 import Day01
 
 class TestDay01(unittest.TestCase):
