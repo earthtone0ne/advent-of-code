@@ -8,11 +8,12 @@ class Day03:
 
 	def count_trees_3_by_1(self):
 		index = 0
+		x_increment = 3
 		count_trees = 0
 		for row in self.hill:
 			if row[index] == TREE:
 				count_trees += 1
-			index = (index + 3) % len(row)
+			index = (index + x_increment) % len(row)
 		return count_trees
 
 	def _read_input_file(self):
