@@ -5,11 +5,22 @@ class Day02:
 		self.input = self._read_input_file() if not input else input
 		self.passwords = self._parse_data(self.input)
 
-	def count_valid_passwords(self):
+	def count_valid_passwords_sled(self):
 		valid_count = 0
 		for item in self.passwords:
 			char_count = item['password'].count(item['char'])
 			if char_count >= item['min'] and char_count <= item['max']:
+				valid_count += 1
+		return valid_count
+
+	def count_valid_passwords_toboggan(self):
+		valid_count = 0
+		for item in self.passwords:
+			password = item['password']
+			char_at_first_position = password[item['min'] - 1]
+			char_at_second_position = password[item['max'] - 1]
+			if (char_at_first_position == item['char'] and char_at_second_position != item['char']) \
+				or (char_at_second_position == item['char'] and char_at_first_position != item['char']):
 				valid_count += 1
 		return valid_count
 
@@ -34,4 +45,5 @@ class Day02:
 
 
 if __name__ == '__main__':
-	print(Day02().count_valid_passwords())
+	print(Day02().count_valid_passwords_sled())
+	print(Day02().count_valid_passwords_toboggan())
