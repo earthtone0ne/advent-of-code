@@ -14,6 +14,9 @@ class Day02:
 		return valid_count
 
 	def count_valid_passwords_toboggan(self):
+		'''
+		Assumptions: positions specified in rules are valid for the given string (indices)
+		'''
 		valid_count = 0
 		for item in self.passwords:
 			password = item['password']
