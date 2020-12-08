@@ -1,3 +1,5 @@
+from validators import validators
+
 REQUIRED_FIELDS = ['byr','iyr','eyr','hgt','hcl','ecl','pid']
 
 class Day04:
@@ -13,7 +15,7 @@ class Day04:
 
 	def validate_document(self, doc):
 		for field in REQUIRED_FIELDS:
-			if not doc.get(field):
+			if not doc.get(field) or not validators[field](doc[field]):
 				return False
 		return True
 
