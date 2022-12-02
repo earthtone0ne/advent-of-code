@@ -14,15 +14,18 @@ class Day05:
 		}
 
 	def get_max_seat_id(self):
-		# max_id = 0
+		max_id = 0
 		for code in self.seat_codes:
-			# row = -1
-			# seat = -1
 			for char in code[0:7]:
 				self._check_next(self.row, char)
 			for char in code[7:]:
 				self._check_next(self.seat, char)
-		return self.row['start'], self.seat['start']
+			seat_id = self._get_seat_id(self.row['start'], self.seat['start'])
+			print(seat_id)
+		return max_id
+
+	def _get_seat_id(self, row, col):
+		return row * 8 + col
 
 	def _check_next(self, entity, char):
 		if char in ['F', 'L']:
@@ -31,10 +34,10 @@ class Day05:
 			self._limit_to_last_half(entity)
 
 	def _limit_to_first_half(self, entity):
-		entity['end'] -= round((entity['end'] - entity['start'] + 0.5) / 2)
+		entity['end'] = entity['end'] - round((entity['end'] - entity['start']) / 2 + 0.5)
 
 	def _limit_to_last_half(self, entity):
-		entity['start'] += round((entity['end'] - entity['start'] + 0.5) / 2)
+		entity['start'] = entity['start'] + round((entity['end'] - entity['start']) / 2 + 0.5)
 
 	def _read_input_file(self):
 		file = open('Year_2020/day_05/input.txt', 'r')
@@ -46,5 +49,5 @@ class Day05:
 		return data.split('\n')
 
 if __name__ == '__main__':
-	print(Day05(input='FBFBBFFRLR').get_max_seat_id())
+	print(Day05(input='FBBBBBBRRL').get_max_seat_id())
 
