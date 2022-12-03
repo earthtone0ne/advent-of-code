@@ -2,14 +2,11 @@ const input = require('./input.js')
 
 const elves = input.split('\n\n');
 
-let mostNoms = 0;
-
-elves.forEach(cargo => {
+const caloriesPerElf = elves.map(cargo => {
 	const snacks = cargo.split('\n');
-	const calories = snacks.reduce((acc, curr) => acc + +curr, 0)
-	if (calories > mostNoms) {
-		mostNoms = calories;
-	}
+	return snacks.reduce((acc, curr) => acc + +curr, 0);
 })
 
-console.log(mostNoms)
+const mostNoms = caloriesPerElf.sort((a, b) => b - a).slice(0, 3);
+
+console.log(mostNoms.reduce((acc, curr) => acc + curr, 0));
