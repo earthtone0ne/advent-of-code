@@ -58,7 +58,6 @@ function getBadgeScoreTotal(data) {
 console.log("Inventory score: ", getInventoryScore(sacks));
 console.log("Badge score: ", getBadgeScoreTotal(sacks));
 
-
 // tests
 const testData = `vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
