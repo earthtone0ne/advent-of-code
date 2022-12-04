@@ -5,12 +5,7 @@
 // [a-z]: 1-26 (ascii: 097-122, diff 96)
 // [A-Z]: 27-52 (ascii: 065-090, diff 38)
 
-const testData = `vJrwpWtwJgWrhcsFMMfFFhFp
-jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
-PmmdzqPrVvPwwTWBwg
-wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
-ttgJtRGJQctTZtZT
-CrZsJsPPZsGzwwsLwLmpwMDw`;
+const input = require('./input');
 
 function getCompartments(string) {
 	const mid = string.length / 2;
@@ -40,6 +35,16 @@ function go(data) {
 	}, 0);
 }
 
-const expected = 157;
-const actual = go(testData);
-console.assert(expected === actual, actual);
+console.log(go(input));
+
+// test
+// const testData = `vJrwpWtwJgWrhcsFMMfFFhFp
+// jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+// PmmdzqPrVvPwwTWBwg
+// wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+// ttgJtRGJQctTZtZT
+// CrZsJsPPZsGzwwsLwLmpwMDw`;
+
+// const expected = 157;
+// const actual = go(testData);
+// console.assert(expected === actual, actual);
