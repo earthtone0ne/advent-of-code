@@ -20,17 +20,24 @@ function getIsContained([elf1, elf2]) {
 	const secondInFirst = elf2.lo >= elf1.lo && elf2.hi <= elf1.hi;
 	return firstInSecond || secondInFirst;
 }
-function countContainedRows(data) {
+function getHasOverlap([elf1, elf2]) {
+	if (elf1.lo > elf2.hi || elf2.lo > elf1.hi) {
+		return false;
+	}
+	return true;
+}
+function countMatchingRows(data, lambda) {
 	const rows = parseRows(data);
 	return rows.reduce((acc, row) => {
-		if (getIsContained(row)) {
+		if (lambda(row)) {
 			acc++;
 		}
 		return acc;
 	}, 0)
 }
 
-console.log('Day 1: ', countContainedRows(data));
+console.log('Part 1: ', countMatchingRows(data, getIsContained));
+console.log('Part 2: ', countMatchingRows(data, getHasOverlap));
 
 // tests
 const testInput = `2-4,6-8
@@ -42,6 +49,11 @@ const testInput = `2-4,6-8
 const testData = testInput.split('\n');
 
 const expected1 = 2;
-const actual1 = countContainedRows(testData);
+const actual1 = countMatchingRows(testData, getIsContained);
 
 console.assert(expected1 === actual1, `Part 1 fail: ${actual1}`);
+
+const expected2 = 4;
+const actual2 = countMatchingRows(testData, getHasOverlap);
+
+console.assert(expected2 === actual2, `Part 2 fail: ${actual2}`);
