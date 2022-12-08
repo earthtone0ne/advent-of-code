@@ -29,9 +29,7 @@ function buildTree(data, tree = {}) {
 	let dirTotal = 0;
 	data.forEach((row, idx) => {
 		if (row.startsWith('$ cd ')) {
-			if (keys.length) {
-				currentDir._size = dirTotal;
-			}
+			currentDir._size = dirTotal;
 			dirTotal = 0;
 			const dirName = row.split('cd ')[1];
 			keys.push(dirName);
@@ -74,6 +72,23 @@ function getSizes(node) {
 	return total;
 }
 
+const TARGET = 30_000_000;
+let bigButSmall = Infinity;
+function findDeletionCandidate(node) {
+	let total = node._size;
+	const keys = Object.keys(node).filter(key => key !== '_size');
+	if (keys.length) {
+		total += keys.reduce((acc, key) => {
+			const nodeSize = findDeletionCandidate(node[key]);
+			return acc + nodeSize;
+		}, 0);
+	}
+
+	if (total >= TARGET && total < bigButSmall) {
+		bigButSmall = total;
+	}
+	return total;
+}
 const testInput = `$ cd /
 $ ls
 dir a
@@ -103,7 +118,13 @@ const expected1 = 95437;
 const actual1 = getSizes(buildTree(testData));
 console.assert(expected1 === grandTotal, grandTotal);
 
+const expected2 = 24933642;
+const actual2 = findDeletionCandidate(buildTree(testData));
 
 grandTotal = 0;
-let myTotal = getSizes(buildTree(data));
-console.log(grandTotal, myTotal)
+getSizes(buildTree(data));
+console.log(grandTotal)
+
+bigButSmall = Infinity;
+findDeletionCandidate(buildTree(data));
+console.log(bigButSmall)
