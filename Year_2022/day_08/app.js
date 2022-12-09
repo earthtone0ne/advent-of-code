@@ -21,24 +21,26 @@ function pivotArray(rows) {
 		return acc;
 	}, result);
 }
-
-function countVisibleTrees(rows) {
+function checkIfVisible({ row, col, i, j, tree }) {
+	const maxLeft = Math.max(...row.slice(0, j));
+	const maxRight = Math.max(...row.slice(j + 1));
+	const maxUp = Math.max(...col.slice(0, i));
+	const maxDown = Math.max(...col.slice(i + 1))
+	return tree > Math.min(maxLeft, maxRight, maxUp, maxDown);
+}
+function scopeVisibleTrees(rows) {
 	const cols = pivotArray(rows);
-	console.log(cols)
 	const width = rows.length;
 	const height = cols.length;
 	// count first and last rows and columns, then skip them
 	let visibleCount = width * 2 + (height - 2) * 2;
+	let maxScenicScore = 0;
 	for (let i = 1; i < width - 1; i++) {
 		const row = rows[i].split('');
 		for (let j = 1; j < height - 1; j++) {
 			const col = cols[j]
 			const tree = row[j];
-			const maxLeft = Math.max(...row.slice(0, j));
-			const maxRight = Math.max(...row.slice(j + 1));
-			const maxUp = Math.max(...col.slice(0, i));
-			const maxDown = Math.max(...col.slice(i + 1))
-			if (tree > Math.min(maxLeft, maxRight, maxUp, maxDown)) {
+			if (checkIfVisible({ row, col, i, j, tree })) {
 				visibleCount++;
 			}
 		}
@@ -46,7 +48,7 @@ function countVisibleTrees(rows) {
 	return visibleCount;
 }
 
-console.log("1. Visible: ", countVisibleTrees(data))
+console.log("1. Visible: ", scopeVisibleTrees(data))
 
 // tests
 const testData = `30373
@@ -56,5 +58,5 @@ const testData = `30373
 35390`.split('\n');
 
 const expected1 = 21;
-const actual1 = countVisibleTrees(testData);
+const actual1 = scopeVisibleTrees(testData);
 console.assert(expected1 === actual1, "Part 1 fail: " + actual1)
