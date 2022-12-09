@@ -28,6 +28,22 @@ function checkIfVisible({ row, col, i, j, tree }) {
 	const maxDown = Math.max(...col.slice(i + 1))
 	return tree > Math.min(maxLeft, maxRight, maxUp, maxDown);
 }
+
+function calcScenicity({ row, col, i, j, tree}) {
+	const lookLeft = row.slice(0, j).reverse();
+	const lookRight = row.slice(j + 1);
+	const lookUp = col.slice(0, i).reverse();
+	const lookDown = col.slice(i + 1);
+	const scoreLeft = calcDistanceToNext(lookLeft, tree);
+	const scoreRight = calcDistanceToNext(lookRight, tree);
+	const scoreUp = calcDistanceToNext(lookUp, tree);
+	const scoreDown = calcDistanceToNext(lookDown, tree);
+	return scoreDown * scoreUp * scoreRight * scoreLeft;
+}
+function calcDistanceToNext(queue, tree) {
+	const next = queue.findIndex(q => q >= tree);
+	return (next === -1) ? queue.length : next + 1;
+}
 function scopeVisibleTrees(rows) {
 	const cols = pivotArray(rows);
 	const width = rows.length;
@@ -43,12 +59,12 @@ function scopeVisibleTrees(rows) {
 			if (checkIfVisible({ row, col, i, j, tree })) {
 				visibleCount++;
 			}
+			const scenicScore = calcScenicity({ row, col, i, j, tree });
+			maxScenicScore = Math.max(maxScenicScore, scenicScore);
 		}
 	}
-	return visibleCount;
+	return {visibleCount, maxScenicScore};
 }
-
-console.log("1. Visible: ", scopeVisibleTrees(data))
 
 // tests
 const testData = `30373
@@ -58,5 +74,12 @@ const testData = `30373
 35390`.split('\n');
 
 const expected1 = 21;
-const actual1 = scopeVisibleTrees(testData);
-console.assert(expected1 === actual1, "Part 1 fail: " + actual1)
+const expected2 = 8;
+const {visibleCount: actual1, maxScenicScore: actual2} = scopeVisibleTrees(testData);
+console.assert(expected1 === actual1, "Part 1 fail: " + actual1);
+console.assert(expected2 === actual2, "Part 2 fail: " + actual2);
+
+const { visibleCount: final1, maxScenicScore: final2 } = scopeVisibleTrees(data);
+
+console.log("1. Visible: ", final1)
+console.log("2. Scenic: ", final2)
